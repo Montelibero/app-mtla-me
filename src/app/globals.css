@@ -46,3 +46,34 @@ table {
 .stellar_address {
   font-family: Lucida Console, monospace;
 }
+
+.tab {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgb(var(--foreground-rgb));
+  border-bottom: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background: #777;
+}
+
+.tab.selected {
+  border-color: rgb(var(--foreground-rgb));
+  border-width: 2px;
+  background: #777;
+}
+
+.tab-content {
+  display: none;
+  width: 100%;
+  padding-top: 24px;
+  border: 1px solid rgb(var(--foreground-rgb));
+}
+
+.tab-content.selected {
+  display: block;
+}

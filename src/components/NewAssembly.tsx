@@ -1,12 +1,12 @@
 "use client";
 import { IMember } from "@/interfaces";
 import { Link } from "./Link";
-import { useGetNewC } from "@/hooks";
+import { useGetNewAssembly } from "@/hooks";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
 
-function NewC() {
-  const { newC, isLoading, isValidating, mutate } = useGetNewC();
+function NewAssembly() {
+  const { newC, isLoading, isValidating } = useGetNewAssembly();
   return (
     <section>
       <div
@@ -16,7 +16,7 @@ function NewC() {
           alignItems: "center",
         }}
       >
-        <h1>Ожидаемый состав Совета</h1>
+        <h1>Состав Собрания</h1>
         {(isLoading || isValidating) && <div>Загрузка...</div>}
         <table cellSpacing="16px">
           <thead>
@@ -53,7 +53,7 @@ function NewC() {
   );
 }
 
-export default dynamic(() => Promise.resolve(NewC), {
+export default dynamic(() => Promise.resolve(NewAssembly), {
   ssr: false,
   loading: Loader(),
 });

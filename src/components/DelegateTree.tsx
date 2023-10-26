@@ -6,8 +6,13 @@ import { sumCount } from "@/utils";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
 
-function DelegateTree() {
-  const { tree, isLoading, isValidating, mutate, error } = useGetTree();
+export interface DelegateTreeProps {
+  header: string;
+  type: string;
+}
+
+const DelegateTree: React.FC<DelegateTreeProps> = ({ header, type }) => {
+  const { tree, isLoading, isValidating, mutate, error } = useGetTree(type);
   return (
     <section>
       <div
@@ -17,7 +22,7 @@ function DelegateTree() {
           alignItems: "center",
         }}
       >
-        <h1>Проверка делегаций для Совета:</h1>
+        <h1>{header}</h1>
         {(isLoading || isValidating) && <div>Загрузка...</div>}
         <ul key="tree">
           {tree
@@ -36,7 +41,7 @@ function DelegateTree() {
                 {member.count > 0 ? (
                   <Tree key={member.id} member={member} />
                 ) : null}
-                {index === 19 && <hr />}
+                {index === 19 && type === "delegateC" && <hr />}
               </div>
             ))}
         </ul>
@@ -44,7 +49,7 @@ function DelegateTree() {
       </div>
     </section>
   );
-}
+};
 
 export default dynamic(() => Promise.resolve(DelegateTree), {
   ssr: false,

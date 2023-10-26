@@ -203,17 +203,17 @@ export const useGetMembers = singletonHook(
   useGetMembersImpl
 );
 
-export const useGetTreeImpl = () => {
+export const useGetTree = (type = "delegateC") => {
   const { members, isLoading, isValidating, mutate, date } = useGetMembers();
   const [tree, error] = useMemo(() => {
     const tree = arrayToTree(members, {
-      parentId: "delegateC",
+      parentId: type,
       dataField: null,
     });
     let error;
     try {
       arrayToTree(members, {
-        parentId: "delegateC",
+        parentId: type,
         dataField: null,
         throwIfOrphans: true,
       });
@@ -231,18 +231,6 @@ export const useGetTreeImpl = () => {
   }, [members]);
   return { tree, isLoading, isValidating, mutate, error, date };
 };
-
-export const useGetTree = singletonHook(
-  {
-    tree: [],
-    isLoading: false,
-    isValidating: false,
-    error: undefined,
-    mutate: () => Promise.resolve(undefined),
-    date: null,
-  },
-  useGetTreeImpl
-);
 
 export const useGetNewCImpl = () => {
   const { tree, isLoading, isValidating, mutate, date } = useGetTree();
@@ -278,6 +266,35 @@ export const useGetNewC = singletonHook(
     date: null,
   },
   useGetNewCImpl
+);
+
+export const useGetNewAssemblyImpl = () => {
+  const { tree, isLoading, isValidating, mutate, date } =
+    useGetTree("delegateA");
+  const newC = useMemo(() => {
+    return tree
+      .filter((member) => false || member.count > 0)
+      .map((member) => ({
+        ...(member as IMember),
+        count: sumCount(member as IMember & { children?: IMember[] }),
+        delegations:
+          sumCount(member as IMember & { children?: IMember[] }) - member.count,
+        weight: sumCount(member as IMember & { children?: IMember[] }),
+      }))
+      .sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
+  }, [tree]);
+  return { newC, isLoading, isValidating, mutate, date };
+};
+
+export const useGetNewAssembly = singletonHook(
+  {
+    newC: [],
+    isLoading: false,
+    isValidating: false,
+    mutate: () => Promise.resolve(undefined),
+    date: null,
+  },
+  useGetNewAssemblyImpl
 );
 
 export const useGetChangesImpl = () => {
@@ -485,3 +502,5 @@ export const useGetTransactionImpl = () => {
 };
 
 export const useGetTransaction = singletonHook(null, useGetTransactionImpl);
+
+export * from "./useActiveTab";

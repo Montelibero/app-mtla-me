@@ -1,23 +1,18 @@
-import CurrentC from "../components/CurrentC";
-import Members from "../components/Members";
-import DelegateTree from "../components/DelegateTree";
-import NewC from "../components/NewC";
-import Changes from "../components/Changes";
-import Refresh from "@/components/Refresh";
+import { Assembly } from "@/components/Assembly";
+import { Council } from "@/components/Council";
+import { Tab, TabContent } from "../components/Tab";
 
 export default function Home() {
   return (
-    <main>
-      <Refresh />
-      <Members />
-      <hr />
-      <CurrentC />
-      <hr />
-      <DelegateTree />
-      <hr />
-      <NewC />
-      <hr />
-      <Changes />
-    </main>
+    <>
+      <nav style={{ display: "flex" }}>
+        <Tab id="assembly" name="Собрание" />
+        <Tab id="council" name="Совет" />
+      </nav>
+      <main>
+        <TabContent id="assembly" Component={<Assembly />} />
+        <TabContent id="council" Component={<Council />} />
+      </main>
+    </>
   );
 }
