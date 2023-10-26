@@ -22,7 +22,7 @@ import {
   uniqBy,
 } from "lodash";
 import { arrayToTree } from "performant-array-to-tree";
-import { sumCount } from "@/utils";
+import { sumCount, sumWeight } from "@/utils";
 import { data as testData } from "@/fixture/dev";
 import { Link } from "@/components/Link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -269,17 +269,22 @@ export const useGetNewC = singletonHook(
 );
 
 export const useGetNewAssemblyImpl = () => {
+  const { members } = useGetMembers();
   const { tree, isLoading, isValidating, mutate, date } =
     useGetTree("delegateA");
   const newC = useMemo(() => {
-    return tree
+    return uniqBy(tree.concat(members), "id")
       .filter((member) => false || member.count > 0)
       .map((member) => ({
         ...(member as IMember),
         count: sumCount(member as IMember & { children?: IMember[] }),
         delegations:
           sumCount(member as IMember & { children?: IMember[] }) - member.count,
-        weight: sumCount(member as IMember & { children?: IMember[] }),
+        weight: sumWeight(
+          "delegateA",
+          true,
+          member as IMember & { children?: IMember[] }
+        ),
       }))
       .sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
   }, [tree]);

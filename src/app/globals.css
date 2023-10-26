@@ -77,3 +77,7 @@ table {
 .tab-content.selected {
   display: block;
 }
+
+section {
+  overflow: auto;
+}

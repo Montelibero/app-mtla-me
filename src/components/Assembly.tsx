@@ -11,7 +11,7 @@ export const Assembly: React.FC<AssemblyProps> = ({ className }) => {
   return (
     <article className={className}>
       <Refresh />
-      <Members />
+      <Members delegateId="delegateA" delegateName="Делегат в Собрании" />
       <hr />
       <DelegateTree
         header="Проверка делегаций для Собрания:"

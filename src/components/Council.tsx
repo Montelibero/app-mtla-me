@@ -13,7 +13,7 @@ export const Council: React.FC<CouncilProps> = ({ className }) => {
   return (
     <article className={className}>
       <Refresh />
-      <Members />
+      <Members delegateId="delegateC" delegateName="Делегат в Совете" />
       <hr />
       <CurrentC />
       <hr />

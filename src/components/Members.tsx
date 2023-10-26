@@ -5,7 +5,12 @@ import dynamic from "next/dynamic";
 import { IMember } from "@/interfaces";
 import { Loader } from "./Loader";
 
-function Members() {
+export interface MembersProps {
+  delegateId: "delegateA" | "delegateC";
+  delegateName: string;
+}
+
+const Members: React.FC<MembersProps> = ({ delegateId, delegateName }) => {
   const { members, isLoading, isValidating, mutate } = useGetMembers();
 
   return (
@@ -25,8 +30,7 @@ function Members() {
               <th></th>
               <th>Аккаунт</th>
               <th>MTLAP</th>
-              <th>Делегат в Собрании</th>
-              <th>Делегат в Совете</th>
+              <th>{delegateName}</th>
             </tr>
           </thead>
           <tbody>
@@ -40,8 +44,7 @@ function Members() {
                   </td>
                   <td>{Link(member.id)}</td>
                   <td>{member.count}</td>
-                  <td>{Link(member.delegateA)}</td>
-                  <td>{Link(member.delegateC)}</td>
+                  <td>{Link(member[delegateId])}</td>
                 </tr>
               ))}
           </tbody>
@@ -49,7 +52,7 @@ function Members() {
       </div>
     </section>
   );
-}
+};
 
 export default dynamic(() => Promise.resolve(Members), {
   ssr: false,
