@@ -81,3 +81,7 @@ table {
 section {
   overflow: auto;
 }
+
+main {
+  margin-right: 2px;
+}

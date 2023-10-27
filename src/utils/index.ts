@@ -19,7 +19,7 @@ export const sumWeight = (
 ): number => {
   if (!member) return 0;
   return (
-    (member[type] && root ? 0 : member.count) +
+    (member[type] && root ? 0 : member.count > 0 ? 1 : 0) +
     +(member.children?.length
       ? member.children
           ?.map(sumWeight.bind(null, type, false))
