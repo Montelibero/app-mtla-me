@@ -44,7 +44,7 @@ const Members: React.FC<MembersProps> = ({ delegateId, delegateName }) => {
                   </td>
                   <td>{Link(member.id)}</td>
                   <td>{member.count}</td>
-                  <td>{Link(member[delegateId])}</td>
+                  <td>{Link(member?.[delegateId] ?? null)}</td>
                 </tr>
               ))}
           </tbody>

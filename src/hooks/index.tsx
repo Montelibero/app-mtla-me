@@ -28,8 +28,10 @@ import { Link } from "@/components/Link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { singletonHook } from "react-singleton-hook";
 
-const server = new Server("https://horizon.stellar.org");
+const horizonUrl = "https://horizon.stellar.org";
+const server = new Server(horizonUrl);
 const mtlapAsset = new Asset(config.mtlapToken, config.mainAccount);
+const mtlacAsset = new Asset(config.mtlacToken, config.mainAccount);
 
 export const useGetCurrentCImpl = () => {
   const response = useSWR<AccountResponse>(
@@ -94,7 +96,23 @@ const asyncWhile: <T extends Horizon.BaseResponse>(
   func: () => Promise<ServerApi.CollectionPage<T>>
 ) {
   const res = await func();
-  recs = recs.concat(res?.records);
+  recs = recs.concat(
+    await Promise.all(
+      res?.records.map(async (rec) => {
+        const response = (rec as any).home_domain
+          ? await fetch(
+              `https://api.stellar.expert/explorer/public/domain-meta?domain=${
+                (rec as any).home_domain
+              }`
+            )
+          : null;
+        if (response) {
+          (rec as any).toml = await response.json();
+        }
+        return rec;
+      })
+    )
+  );
   if (res?.records?.length > 0) return await asyncWhile(recs, res.next);
   return recs;
 };
@@ -201,6 +219,93 @@ export const useGetMembers = singletonHook(
     date: null,
   },
   useGetMembersImpl
+);
+
+export const useGetCorporateMembersImpl = () => {
+  const cache = JSON.parse(localStorage?.getItem("сorporateMembers") || "null");
+  const date = cache?.date || null;
+  const response = useSWR<ServerApi.AccountRecord[]>(
+    "сorporateMembers",
+    async () => {
+      const cache = JSON.parse(
+        localStorage.getItem("сorporateMembers") || "null"
+      );
+      const today = new Date();
+      today.setDate(today.getDate() - 1);
+      if (!cache || new Date(cache.date).getTime() < today.getTime()) {
+        let records: ServerApi.AccountRecord[] = [];
+        const res = await server.accounts().forAsset(mtlacAsset).call();
+        records = records.concat(
+          await Promise.all(
+            res.records.map(async (rec) => {
+              const response = rec.home_domain
+                ? await fetch(
+                    `https://api.stellar.expert/explorer/public/domain-meta?domain=${rec.home_domain}`
+                  )
+                : null;
+              if (response) {
+                (rec as any).toml = await response.json();
+              }
+              return rec;
+            })
+          ),
+          await asyncWhile<ServerApi.AccountRecord>(records, res.next)
+        );
+        localStorage?.setItem(
+          "сorporateMembers",
+          JSON.stringify({ data: records, date: new Date() })
+        );
+        return records;
+      } else {
+        return cache.data;
+      }
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: false,
+    }
+  );
+
+  const members: IMember[] = useMemo(() => {
+    const mmbrs: IMember[] = [];
+    response?.data?.forEach((record) => {
+      mmbrs.push({
+        id: record.account_id,
+        count: Number(
+          record.balances.find(
+            (balance) =>
+              balance.asset_type === "credit_alphanum12" &&
+              balance.asset_code === mtlacAsset.getCode() &&
+              balance.asset_issuer === mtlacAsset.getIssuer()
+          )?.balance || 0
+        ),
+        domain: record.home_domain,
+        toml: (record as any).toml,
+      });
+    });
+    return mmbrs;
+  }, [response.data]);
+
+  return {
+    data: response.data,
+    isLoading: response.isLoading,
+    isValidating: response.isValidating,
+    mutate: response.mutate,
+    members: false ? testData.members : members,
+    date,
+  };
+};
+
+export const useGetCorporateMembers = singletonHook(
+  {
+    data: [],
+    isLoading: false,
+    isValidating: false,
+    members: [],
+    mutate: () => Promise.resolve(undefined),
+    date: null,
+  },
+  useGetCorporateMembersImpl
 );
 
 export const useGetTree = (type = "delegateC") => {
