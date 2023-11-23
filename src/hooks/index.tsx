@@ -356,8 +356,8 @@ export const useGetNewCImpl = () => {
           ) + 1
         ),
       }))
-      .splice(0, 20)
-      .sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
+      .sort((a, b) => b.count - a.count || a.id.localeCompare(b.id))
+      .splice(0, 20);
   }, [tree]);
   return { newC, isLoading, isValidating, mutate, date };
 };
