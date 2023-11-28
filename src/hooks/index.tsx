@@ -194,8 +194,11 @@ export const useGetMembersImpl = () => {
         members,
         (a, b) => a === b.id
       );
-      if (orphans?.length > 0)
+      if (orphans?.length > 0) {
         setFullMembers(await enrichMembers(uniqBy(members, "id"), orphans, 10));
+      } else {
+        setFullMembers(members);
+      }
     })();
   }, [members, delegations, date]);
 
