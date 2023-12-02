@@ -13,6 +13,7 @@ export interface DelegateTreeProps {
 
 const DelegateTree: React.FC<DelegateTreeProps> = ({ header, type }) => {
   const { tree, isLoading, isValidating, mutate, error } = useGetTree(type);
+  let i = 1;
   return (
     <section>
       <div
@@ -39,7 +40,11 @@ const DelegateTree: React.FC<DelegateTreeProps> = ({ header, type }) => {
             ?.map((member: IMember & { children?: IMember[] }, index) => (
               <div key={member.id}>
                 {member.count > 0 ? (
-                  <Tree key={member.id} member={member} />
+                  <Tree
+                    key={member.id}
+                    member={member}
+                    num={member.councilReady ? i++ : 0}
+                  />
                 ) : null}
                 {index === 19 && type === "delegateC" && <hr />}
               </div>

@@ -3,14 +3,16 @@ import { Link } from "./Link";
 import { sumCount } from "@/utils";
 import { FC } from "react";
 
-export const Tree: FC<{ member: IMember & { children?: IMember[] } }> = ({
-  member,
-}) => {
+export const Tree: FC<{
+  member: IMember & { children?: IMember[] };
+  num?: number;
+}> = ({ member, num }) => {
   const sum = sumCount(member);
   return (
     <>
       <li key={member.id}>
-        <div style={{ display: "flex", gap: "16px" }}>
+        <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          {num ? `${num}` : num === 0 ? "-" : ""}
           {Link(member.id)}{" "}
           {sum - member.count > 0
             ? sum + " = " + member.count + " + " + (sum - member.count)

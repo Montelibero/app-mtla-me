@@ -3,6 +3,7 @@ export interface IMember {
   count: number;
   delegateA?: string;
   delegateC?: string;
+  councilReady?: boolean;
   weight?: number;
   delegations?: number;
   removed?: boolean;

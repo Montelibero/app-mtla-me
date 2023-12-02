@@ -162,6 +162,8 @@ export const useGetMembersImpl = () => {
           record.data_attr["mtla_delegate"] ||
           ""
       );
+      const councilReady =
+        atob(record.data_attr["MTLA Council"] || "") === "ready";
       if (delegateA !== "") {
         dlgtns.push(delegateA);
       }
@@ -180,6 +182,7 @@ export const useGetMembersImpl = () => {
         ),
         delegateA,
         delegateC,
+        councilReady,
       });
     });
     return [mmbrs, dlgtns];
@@ -344,7 +347,7 @@ export const useGetNewCImpl = () => {
   const { tree, isLoading, isValidating, mutate, date } = useGetTree();
   const newC = useMemo(() => {
     return tree
-      .filter((member) => false || member.count > 0)
+      .filter((member) => false || (member.count > 0 && member.councilReady))
       .map((member) => ({
         ...(member as IMember),
         count: sumCount(member as IMember & { children?: IMember[] }),
