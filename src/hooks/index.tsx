@@ -163,11 +163,17 @@ export const useGetMembersImpl = () => {
           ""
       );
       const councilReady =
-        atob(record.data_attr["MTLA Council"] || "") === "ready";
+        atob(record.data_attr["MTLA Council"] || "") === "ready" ||
+        delegateC === "ready" ||
+        delegateC === record.account_id;
       if (delegateA !== "") {
         dlgtns.push(delegateA);
       }
-      if (delegateC !== "") {
+      if (
+        delegateC !== "" &&
+        delegateC !== "ready" &&
+        delegateC !== record.account_id
+      ) {
         dlgtns.push(delegateC);
       }
       mmbrs.push({
@@ -181,7 +187,10 @@ export const useGetMembersImpl = () => {
           )?.balance || 0
         ),
         delegateA,
-        delegateC,
+        delegateC:
+          delegateC !== "ready" && delegateC !== record.account_id
+            ? delegateC
+            : "",
         councilReady,
       });
     });
@@ -525,7 +534,11 @@ export const enrichMembers = async (
             if (delegateA !== "") {
               delegations.push(delegateA);
             }
-            if (delegateC !== "") {
+            if (
+              delegateC !== "" &&
+              delegateC !== "ready" &&
+              delegateC !== account.account_id
+            ) {
               delegations.push(delegateC);
             }
             const member = {
