@@ -10,6 +10,7 @@ import {
   Memo,
   Networks,
   Horizon,
+  TimeoutInfinite,
 } from "stellar-sdk";
 import useSWR from "swr";
 import { config } from "../config";
@@ -164,8 +165,7 @@ export const useGetMembersImpl = () => {
       );
       const councilReady =
         atob(record.data_attr["MTLA Council"] || "") === "ready" ||
-        delegateC === "ready" ||
-        delegateC === record.account_id;
+        delegateC === "ready";
       if (delegateA !== "") {
         dlgtns.push(delegateA);
       }
@@ -545,7 +545,10 @@ export const enrichMembers = async (
               id,
               count: 0,
               delegateA,
-              delegateC,
+              delegateC:
+                delegateC !== "ready" && delegateC !== account.account_id
+                  ? delegateC
+                  : "",
               removed: true,
             };
             cache = {
@@ -622,7 +625,7 @@ export const useGetTransactionImpl = () => {
       });
 
       if (opCount) {
-        return transaction.setTimeout(30).build().toEnvelope();
+        return transaction.setTimeout(TimeoutInfinite).build().toEnvelope();
       }
     }
     return null;
