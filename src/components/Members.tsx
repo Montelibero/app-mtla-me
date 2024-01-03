@@ -35,7 +35,7 @@ const Members: React.FC<MembersProps> = ({ delegateId, delegateName }) => {
           </thead>
           <tbody>
             {members
-              .filter((member: IMember) => !member.removed)
+              .filter((member: IMember) => !member.removed && member.count > 0)
               ?.sort((a, b) => b.count - a.count || a.id.localeCompare(b.id))
               ?.map((member, index) => (
                 <tr key={member.id}>
