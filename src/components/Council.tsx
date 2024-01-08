@@ -13,9 +13,9 @@ export const Council: React.FC<CouncilProps> = ({ className }) => {
   return (
     <article className={className}>
       <Refresh />
-      <Members delegateId="delegateC" delegateName="Делегат в Совете" />
-      <hr />
       <CurrentC />
+      <hr />
+      <Members delegateId="delegateC" delegateName="Делегат в Совете" />
       <hr />
       <DelegateTree
         header="Проверка делегаций для Совета:"
