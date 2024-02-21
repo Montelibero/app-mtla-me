@@ -1,3 +1,9 @@
+<h1 align="center">App.MTLA.me</h1>
+
+Live: [app.mtla.me](https://app.mtla.me)
+
+The repository is a part of the [Montelibero](https://github.com/Montelibero). This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 
@@ -27,3 +33,11 @@ To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+## Contributing
+
+Please read through our [Contributing Guidelines](CONTRIBUTING.md) and [Installation Instructions](INSTALL.md).
+
+## License
+
+This project is open source and available freely under the [MIT license](LICENSE.md).
