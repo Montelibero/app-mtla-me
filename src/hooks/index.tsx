@@ -33,6 +33,7 @@ const horizonUrl = "https://horizon.stellar.org";
 const server = new Server(horizonUrl);
 const mtlapAsset = new Asset(config.mtlapToken, config.mainAccount);
 const mtlacAsset = new Asset(config.mtlacToken, config.mainAccount);
+const blacklist = ["GDGC46H4MQKRW3TZTNCWUU6R2C7IPXGN7HQLZBJTNQO6TW7ZOS6MSECR"];
 
 export const useGetCurrentCImpl = () => {
   const response = useSWR<AccountResponse>(
@@ -100,17 +101,21 @@ const asyncWhile: <T extends Horizon.BaseResponse>(
   recs = recs.concat(
     await Promise.all(
       res?.records.map(async (rec) => {
-        const response = (rec as any).home_domain
-          ? await fetch(
-              `https://api.stellar.expert/explorer/public/domain-meta?domain=${
-                (rec as any).home_domain
-              }`
-            )
-          : null;
-        if (response) {
-          (rec as any).toml = await response.json();
+        try {
+          const response = (rec as any).home_domain
+            ? await fetch(
+                `https://api.stellar.expert/explorer/public/domain-meta?domain=${
+                  (rec as any).home_domain
+                }`
+              )
+            : null;
+          if (response) {
+            (rec as any).toml = await response.json();
+          }
+          return rec;
+        } catch (error) {
+          return rec;
         }
-        return rec;
       })
     )
   );
@@ -133,6 +138,9 @@ export const useGetMembersImpl = () => {
         records = records.concat(
           res.records,
           await asyncWhile<ServerApi.AccountRecord>(records, res.next)
+        );
+        records = records.filter(
+          (record) => !blacklist.includes(record.account_id)
         );
         localStorage?.setItem(
           "members",
@@ -253,18 +261,25 @@ export const useGetCorporateMembersImpl = () => {
         records = records.concat(
           await Promise.all(
             res.records.map(async (rec) => {
-              const response = rec.home_domain
-                ? await fetch(
-                    `https://api.stellar.expert/explorer/public/domain-meta?domain=${rec.home_domain}`
-                  )
-                : null;
-              if (response) {
-                (rec as any).toml = await response.json();
+              try {
+                const response = rec.home_domain
+                  ? await fetch(
+                      `https://api.stellar.expert/explorer/public/domain-meta?domain=${rec.home_domain}`
+                    )
+                  : null;
+                if (response) {
+                  (rec as any).toml = await response.json();
+                }
+                return rec;
+              } catch (error) {
+                return rec;
               }
-              return rec;
             })
           ),
           await asyncWhile<ServerApi.AccountRecord>(records, res.next)
+        );
+        records = records.filter(
+          (record) => !blacklist.includes(record.account_id)
         );
         localStorage?.setItem(
           "сorporateMembers",
