@@ -1,9 +1,13 @@
 'use client';
 
 import { LanguageContext } from "@/hooks/useLanguageContext";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
-export function Providers({ children }: any) {
+interface ProvidersProps {
+    children: ReactNode;
+}
+
+export function Providers({ children }: ProvidersProps) {
     const [locale, setLocal] = useState('en');
 
     useEffect(() => {

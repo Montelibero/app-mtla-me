@@ -1,12 +1,11 @@
 "use client";
 
 import { useGetChanges } from "@/hooks";
-import { useLanguageContext } from "@/hooks/useLanguageContext";
-import { i18nCommon } from "@/i18n/main-page";
+import { useTranslations } from "@/hooks/useTranslations";
 import dynamic from "next/dynamic";
 
 function Refresh() {
-  const { locale } = useLanguageContext();
+  const translations = useTranslations();
   const { changes, isLoading, isValidating, mutate, date } = useGetChanges();
   
   return (
@@ -18,11 +17,10 @@ function Refresh() {
       }}
     >
       {isLoading || isValidating ? (
-        <div>{locale === 'ru' ? i18nCommon.refreshRu.title : i18nCommon.refreshEn.title}</div>
+        <div>{translations.common.title}</div>
       ) : (
         <>
-          {`${locale === 'ru' ? i18nCommon.refreshRu.data : i18nCommon.refreshEn.data}
-          ${date && new Date(date).toLocaleString()}`}
+          {`${translations.common.data} ${date && new Date(date).toLocaleString()}`}
           <button
             onClick={() => {
               localStorage.clear();
@@ -30,7 +28,7 @@ function Refresh() {
             }}
             style={{ width: "320px", height: "32px", margin: "16px" }}
           >
-            {locale === 'ru' ? i18nCommon.refreshRu.buttonTitle : i18nCommon.refreshEn.buttonTitle}
+            {translations.common.buttonTitle}
           </button>
         </>
       )}

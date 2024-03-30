@@ -5,11 +5,10 @@ import { IMember } from "@/interfaces";
 import { Link } from "./Link";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
-import { useLanguageContext } from "@/hooks/useLanguageContext";
-import { i18nTabs } from "@/i18n/main-page";
+import { useTranslations } from "@/hooks/useTranslations";
 
 function Changes() {
-  const { locale } = useLanguageContext();
+  const translations = useTranslations();
   const { changes } = useGetChanges();
   const xdr = useGetTransaction();
 
@@ -22,30 +21,14 @@ function Changes() {
           alignItems: "center",
         }}
       >
-        <h1>
-          {locale === 'ru' ?
-            i18nTabs.councilRu.content.changes.title :
-            i18nTabs.councilEn.content.changes.title}
-        </h1>
+        <h1>{translations.council.content.changes.title}</h1>
         {changes?.length > 0 ? (
           <table cellSpacing="16px">
             <thead>
               <tr>
-                <th>
-                  {locale === 'ru' ?
-                    i18nTabs.councilRu.content.changes.firstColumn :
-                    i18nTabs.councilEn.content.changes.firstColumn}
-                </th>
-                <th>
-                  {locale === 'ru' ?
-                    i18nTabs.councilRu.content.changes.secondColumn :
-                    i18nTabs.councilEn.content.changes.secondColumn}
-                </th>
-                <th>
-                  {locale === 'ru' ?
-                    i18nTabs.councilRu.content.changes.thirdColumn :
-                    i18nTabs.councilEn.content.changes.thirdColumn}
-                </th>
+                <th>{translations.council.content.changes.firstColumn}</th>
+                <th>{translations.council.content.changes.secondColumn}</th>
+                <th>{translations.council.content.changes.thirdColumn}</th>
               </tr>
             </thead>
             <tbody>
@@ -62,9 +45,7 @@ function Changes() {
           </table>
         ) : (
           <>
-            {locale === 'ru' ?
-              i18nTabs.councilRu.content.changes.noChanges :
-              i18nTabs.councilEn.content.changes.noChanges}
+            {translations.council.content.changes.noChanges}
           </>
         )}
         {xdr && (

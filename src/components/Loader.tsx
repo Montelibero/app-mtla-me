@@ -1,11 +1,10 @@
 "use client";
 
-import { useLanguageContext } from "@/hooks/useLanguageContext";
-import { i18nCommon } from "@/i18n/main-page";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export const Loader = () => {
   const Loader = () => {
-    const { locale } = useLanguageContext();
+    const translations = useTranslations();
 
     return (
       <div
@@ -15,7 +14,7 @@ export const Loader = () => {
           alignItems: "center",
         }}
       >
-        <div>{locale === 'ru' ? i18nCommon.refreshRu.title : i18nCommon.refreshEn.title}</div>
+        <div>{translations.common.title}</div>
       </div>
     )
   };
