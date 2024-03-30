@@ -1,13 +1,18 @@
 "use client";
+
 import { useGetChanges, useGetTransaction } from "@/hooks";
 import { IMember } from "@/interfaces";
 import { Link } from "./Link";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
+import { useLanguageContext } from "@/hooks/useLanguageContext";
+import { i18nTabs } from "@/i18n/main-page";
 
 function Changes() {
+  const { locale } = useLanguageContext();
   const { changes } = useGetChanges();
   const xdr = useGetTransaction();
+
   return (
     <section>
       <div
@@ -17,14 +22,30 @@ function Changes() {
           alignItems: "center",
         }}
       >
-        <h1>Разница расчетного и текущего:</h1>
+        <h1>
+          {locale === 'ru' ?
+            i18nTabs.councilRu.content.changes.title :
+            i18nTabs.councilEn.content.changes.title}
+        </h1>
         {changes?.length > 0 ? (
           <table cellSpacing="16px">
             <thead>
               <tr>
-                <th>Аккаунт</th>
-                <th>Вес голоса</th>
-                <th>Изменения</th>
+                <th>
+                  {locale === 'ru' ?
+                    i18nTabs.councilRu.content.changes.firstColumn :
+                    i18nTabs.councilEn.content.changes.firstColumn}
+                </th>
+                <th>
+                  {locale === 'ru' ?
+                    i18nTabs.councilRu.content.changes.secondColumn :
+                    i18nTabs.councilEn.content.changes.secondColumn}
+                </th>
+                <th>
+                  {locale === 'ru' ?
+                    i18nTabs.councilRu.content.changes.thirdColumn :
+                    i18nTabs.councilEn.content.changes.thirdColumn}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -40,7 +61,11 @@ function Changes() {
             </tbody>
           </table>
         ) : (
-          "Нет изменений"
+          <>
+            {locale === 'ru' ?
+              i18nTabs.councilRu.content.changes.noChanges :
+              i18nTabs.councilEn.content.changes.noChanges}
+          </>
         )}
         {xdr && (
           <p style={{ width: "600px", wordWrap: "break-word" }}>

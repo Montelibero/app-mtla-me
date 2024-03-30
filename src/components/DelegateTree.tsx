@@ -5,6 +5,8 @@ import { useGetTree } from "@/hooks";
 import { sumCount } from "@/utils";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
+import { useLanguageContext } from "@/hooks/useLanguageContext";
+import { i18nCommon } from "@/i18n/main-page";
 
 export interface DelegateTreeProps {
   header: string;
@@ -12,8 +14,10 @@ export interface DelegateTreeProps {
 }
 
 const DelegateTree: React.FC<DelegateTreeProps> = ({ header, type }) => {
+  const { locale } = useLanguageContext();
   const { tree, isLoading, isValidating, mutate, error } = useGetTree(type);
   let i = 1;
+
   return (
     <section>
       <div
@@ -24,7 +28,9 @@ const DelegateTree: React.FC<DelegateTreeProps> = ({ header, type }) => {
         }}
       >
         <h1>{header}</h1>
-        {(isLoading || isValidating) && <div>Загрузка...</div>}
+        {(isLoading || isValidating) && (
+          <div>{locale === 'ru' ? i18nCommon.refreshRu.title : i18nCommon.refreshEn.title}</div>
+        )}
         <ul key="tree">
           {tree
             ?.map((member) => ({

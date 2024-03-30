@@ -85,3 +85,19 @@ section {
 main {
   margin-right: 2px;
 }
+
+.lang-switcher {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.lang-switcher span {
+  cursor: pointer;
+}
+
+.lang-switcher .active {
+  border-bottom: 1px solid rgb(var(--foreground-rgb));
+}
