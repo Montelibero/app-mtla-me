@@ -1,15 +1,23 @@
 "use client";
+
+import { useTranslations } from "@/hooks/useTranslations";
+
 export const Loader = () => {
-  const Loader = () => (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <div>Загрузка...</div>
-    </div>
-  );
+  const Loader = () => {
+    const translations = useTranslations();
+
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div>{translations.common.title}</div>
+      </div>
+    )
+  };
+
   return Loader;
 };

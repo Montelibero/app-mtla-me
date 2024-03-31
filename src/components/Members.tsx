@@ -4,6 +4,7 @@ import { Link } from "./Link";
 import dynamic from "next/dynamic";
 import { IMember } from "@/interfaces";
 import { Loader } from "./Loader";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export interface MembersProps {
   delegateId: "delegateA" | "delegateC";
@@ -11,6 +12,7 @@ export interface MembersProps {
 }
 
 const Members: React.FC<MembersProps> = ({ delegateId, delegateName }) => {
+  const translations = useTranslations();
   const { members, isLoading, isValidating, mutate } = useGetMembers();
 
   return (
@@ -22,13 +24,15 @@ const Members: React.FC<MembersProps> = ({ delegateId, delegateName }) => {
           alignItems: "center",
         }}
       >
-        <h1>Индивидуальные участники Ассоциации</h1>
-        {(isLoading || isValidating) && <div>Загрузка...</div>}
+        <h1>{translations.assembly.content.members.title}</h1>
+        {(isLoading || isValidating) && (
+          <div>{translations.common.title}</div>
+        )}
         <table cellSpacing="16px">
           <thead>
             <tr>
               <th></th>
-              <th>Аккаунт</th>
+              <th>{translations.assembly.content.members.tableHead}</th>
               <th>MTLAP</th>
               <th>{delegateName}</th>
             </tr>

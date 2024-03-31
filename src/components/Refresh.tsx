@@ -1,10 +1,13 @@
 "use client";
 
 import { useGetChanges } from "@/hooks";
+import { useTranslations } from "@/hooks/useTranslations";
 import dynamic from "next/dynamic";
 
 function Refresh() {
+  const translations = useTranslations();
   const { changes, isLoading, isValidating, mutate, date } = useGetChanges();
+  
   return (
     <div
       style={{
@@ -14,10 +17,10 @@ function Refresh() {
       }}
     >
       {isLoading || isValidating ? (
-        <div>Загрузка...</div>
+        <div>{translations.common.title}</div>
       ) : (
         <>
-          Данные на {date && new Date(date).toLocaleString()}
+          {`${translations.common.data} ${date && new Date(date).toLocaleString()}`}
           <button
             onClick={() => {
               localStorage.clear();
@@ -25,7 +28,7 @@ function Refresh() {
             }}
             style={{ width: "320px", height: "32px", margin: "16px" }}
           >
-            Обновить
+            {translations.common.buttonTitle}
           </button>
         </>
       )}

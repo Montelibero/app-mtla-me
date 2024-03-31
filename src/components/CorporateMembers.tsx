@@ -1,15 +1,19 @@
 "use client";
+
 import { useGetCorporateMembers } from "@/hooks";
 import { Link } from "./Link";
 import dynamic from "next/dynamic";
 import { IMember } from "@/interfaces";
 import { Loader } from "./Loader";
+import { useTranslations } from "@/hooks/useTranslations";
 
-export interface CorporateMembersProps {}
+export interface CorporateMembersProps { }
 
-const CorporateMembers: React.FC<CorporateMembersProps> = ({}) => {
+const CorporateMembers: React.FC<CorporateMembersProps> = ({ }) => {
+  const translations = useTranslations();
   const { data, members, isLoading, isValidating, mutate } =
     useGetCorporateMembers();
+
   return (
     <section>
       <div
@@ -19,15 +23,19 @@ const CorporateMembers: React.FC<CorporateMembersProps> = ({}) => {
           alignItems: "center",
         }}
       >
-        <h1>Корпоративные участники Ассоциации</h1>
-        {(isLoading || isValidating) && <div>Загрузка...</div>}
+        <h1>
+          {translations.corporate.content.members.title}
+        </h1>
+        {(isLoading || isValidating) && (
+          <div>{translations.common.title}</div>
+        )}
         <table cellSpacing="16px">
           <thead>
             <tr>
               <th></th>
-              <th>Аккаунт</th>
+              <th>{translations.corporate.content.members.secondColumn}</th>
               <th>MTLAC</th>
-              <th>Сайт</th>
+              <th>{translations.corporate.content.members.fourthColumn}</th>
               <th>TOML</th>
             </tr>
           </thead>

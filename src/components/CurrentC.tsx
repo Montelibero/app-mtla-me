@@ -1,11 +1,15 @@
 "use client";
+
 import { useGetCurrentC } from "@/hooks";
 import { Link } from "./Link";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
+import { useTranslations } from "@/hooks/useTranslations";
 
 function CurrentC() {
+  const translations = useTranslations();
   const { currentC, error, mutate, isLoading, isValidating } = useGetCurrentC();
+
   return (
     <section>
       <div
@@ -15,13 +19,15 @@ function CurrentC() {
           alignItems: "center",
         }}
       >
-        <h1>Актуальный состав Совета</h1>
-        {(isLoading || isValidating) && <div>Загрузка...</div>}
+        <h1>{translations.council.content.currentC.title}</h1>
+        {(isLoading || isValidating) && (
+          <div>{translations.common.title}</div>
+        )}
         <table cellSpacing="16px">
           <thead>
             <tr>
-              <th>Аккаунт</th>
-              <th>Голоса</th>
+              <th>{translations.council.content.currentC.firstColumn}</th>
+              <th>{translations.council.content.currentC.secondColumn}</th>
             </tr>
           </thead>
           <tbody>

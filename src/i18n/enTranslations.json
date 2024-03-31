@@ -1,0 +1,63 @@
+{
+    "common": {
+        "title": "Loading...",
+        "data": "The data as of",
+        "buttonTitle": "Update"
+    },
+    "assembly": {
+        "name": "Assembly",
+        "content": {
+            "members": {
+                "name": "Delegate in the Assembly",
+                "title": "Individual members of the Association",
+                "tableHead": "Account"
+            },
+            "delegateTree": "Delegation check for the Assembly:",
+            "newAssembly": {
+                "title": "Composition of the Assembly",
+                "firstColumn": "Account",
+                "secondColumn": "Tokens",
+                "thirdColumn": "Votes"
+            }
+        }
+    },
+    "council": {
+        "name": "Council",
+        "content": {
+            "currentC": {
+                "title": "Current composition of the Council",
+                "firstColumn": "Account",
+                "secondColumn": "Votes"
+            },
+            "members": {
+                "name": "Delegate in the Council"
+            },
+            "delegateTree": {
+                "name": "Delegation check for the Council:"
+            },
+            "newC": {
+                "title": "Expected composition of the Council",
+                "firstColumn": "Account",
+                "secondColumn": "Tokens",
+                "thirdColumn": "Votes"
+            },
+            "changes": {
+                "title": "Difference between calculated and current:",
+                "firstColumn": "Account",
+                "secondColumn": "Voting weight",
+                "thirdColumn": "Changes",
+                "noChanges": "No changes"
+            }
+        }
+    },
+    "corporate": {
+        "name": "Corporates",
+        "content": {
+            "members": {
+                "title": "Corporate members of the Association",
+                "secondColumn": "Account",
+                "fourthColumn": "Website"
+            }
+        }
+    }
+}

@@ -1,12 +1,16 @@
 "use client";
+
 import { IMember } from "@/interfaces";
 import { Link } from "./Link";
 import { useGetNewC } from "@/hooks";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
+import { useTranslations } from "@/hooks/useTranslations";
 
 function NewC() {
+  const translations = useTranslations();
   const { newC, isLoading, isValidating, mutate } = useGetNewC();
+
   return (
     <section>
       <div
@@ -16,14 +20,16 @@ function NewC() {
           alignItems: "center",
         }}
       >
-        <h1>Ожидаемый состав Совета</h1>
-        {(isLoading || isValidating) && <div>Загрузка...</div>}
+        <h1>{translations.council.content.newC.title}</h1>
+        {(isLoading || isValidating) && (
+          <div>{translations.common.title}</div>
+        )}
         <table cellSpacing="16px">
           <thead>
             <tr>
-              <th>Аккаунт</th>
-              <th>Токены</th>
-              <th>Голоса</th>
+              <th>{translations.council.content.newC.firstColumn}</th>
+              <th>{translations.council.content.newC.secondColumn}</th>
+              <th>{translations.council.content.newC.thirdColumn}</th>
             </tr>
           </thead>
           <tbody>
@@ -36,10 +42,10 @@ function NewC() {
                   <td>
                     {member.delegations ?? 0 > 0
                       ? member.count +
-                        " = " +
-                        (member.count - (member.delegations ?? 0)) +
-                        " + " +
-                        member.delegations
+                      " = " +
+                      (member.count - (member.delegations ?? 0)) +
+                      " + " +
+                      member.delegations
                       : member.count}
                   </td>
                   <td>{member.weight}</td>

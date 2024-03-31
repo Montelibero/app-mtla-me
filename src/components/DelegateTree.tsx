@@ -5,6 +5,7 @@ import { useGetTree } from "@/hooks";
 import { sumCount } from "@/utils";
 import dynamic from "next/dynamic";
 import { Loader } from "./Loader";
+import { useTranslations } from "@/hooks/useTranslations";
 
 export interface DelegateTreeProps {
   header: string;
@@ -12,8 +13,10 @@ export interface DelegateTreeProps {
 }
 
 const DelegateTree: React.FC<DelegateTreeProps> = ({ header, type }) => {
+  const translations = useTranslations();
   const { tree, isLoading, isValidating, mutate, error } = useGetTree(type);
   let i = 1;
+
   return (
     <section>
       <div
@@ -24,7 +27,9 @@ const DelegateTree: React.FC<DelegateTreeProps> = ({ header, type }) => {
         }}
       >
         <h1>{header}</h1>
-        {(isLoading || isValidating) && <div>Загрузка...</div>}
+        {(isLoading || isValidating) && (
+          <div>{translations.common.title}</div>
+        )}
         <ul key="tree">
           {tree
             ?.map((member) => ({
