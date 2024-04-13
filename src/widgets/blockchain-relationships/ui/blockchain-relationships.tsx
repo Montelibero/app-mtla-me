@@ -1,8 +1,8 @@
 'use client';
 
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Table } from "@/entities/table";
-import { useTranslations } from "@/hooks/useTranslations";
+import LanguageSwitcher from "@/features/language-switcher/ui/language-switcher";
+import { useTranslations } from "@/shared/lib/hooks";
 
 export default function BlockchainRelationshipsPage({ createDate, accounts }) {
   const translations = useTranslations();
@@ -11,8 +11,6 @@ export default function BlockchainRelationshipsPage({ createDate, accounts }) {
     <>
       <LanguageSwitcher />
       <Table data={accounts} />
-      {/* <Filters filters={filters} onChange={handleFilterChange} />
-      {filteredData && <Table data={filteredData} />} */}
     </>
   );
 }

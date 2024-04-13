@@ -1,5 +1,5 @@
 import { borRequests } from "@/shared/api/requests/bor";
-import { formatAccounts } from "@/shared/lib/utils/formatAccounts";
+import { formatAccounts } from "@/shared/lib/utils";
 import BlockchainRelationshipsPage from "@/widgets/blockchain-relationships/ui/blockchain-relationships";
 
 export default async function BlockchainRelationships() {

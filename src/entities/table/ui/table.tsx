@@ -1,7 +1,6 @@
 'use client';
 
 export const Table = ({ data }) => {
-  console.log(data)
   return (
     <table>
       <thead>

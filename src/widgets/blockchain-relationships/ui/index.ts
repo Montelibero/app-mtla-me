@@ -1,1 +1,1 @@
-export * from './blockchain-relationships-page';
+export * from './blockchain-relationships';
