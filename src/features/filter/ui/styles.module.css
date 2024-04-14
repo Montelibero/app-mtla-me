@@ -1,0 +1,9 @@
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+    width: 50%;
+    max-width: 700px;
+    color: #000;
+}
