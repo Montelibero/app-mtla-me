@@ -1,3 +1,5 @@
+'use client';
+
 export const Link = (id: string | null) => {
   if (!id) return null;
   

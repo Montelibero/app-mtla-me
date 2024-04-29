@@ -1,5 +1,5 @@
 /**
-* uniqueOptionsGenerator создает массив уникальных значений из data
+* getUniqueSelectOptions создает массив уникальных значений из data
 * для использования в компоненте Select.
 */
 

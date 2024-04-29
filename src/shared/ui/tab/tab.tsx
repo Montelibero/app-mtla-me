@@ -1,4 +1,5 @@
 "use client";
+
 import useActiveTab from "@/shared/lib/hooks/use-active-tab";
 import Link from "next/link";
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { IMember } from "@/shared/lib/interfaces";
 import { sumCount } from "@/shared/lib/utils";
 import { Link } from "@/shared/ui";

@@ -1,3 +1,5 @@
+'use client';
+
 import CorporateMembers from "@/entities/corporate-members/ui/corporate-members";
 import CorporateRefresh from "@/features/corporate-refresh/ui/corporate-refresh";
 

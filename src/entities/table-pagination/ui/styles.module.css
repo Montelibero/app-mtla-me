@@ -1,0 +1,16 @@
+.tablePagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 20px;
+}
+
+.tablePagination__button {
+    padding: 10px 15px;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
+.tablePagination__active {
+    background-color: #939393;
+}

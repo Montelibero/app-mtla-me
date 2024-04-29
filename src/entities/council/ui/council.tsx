@@ -1,3 +1,5 @@
+'use client';
+
 import Changes from "@/entities/changes/ui/changes";
 import CurrentC from "@/entities/current-c/ui/current-c";
 import DelegateTree from "@/entities/delegate-tree/ui/delegate-tree";

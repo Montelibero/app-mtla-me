@@ -1,3 +1,5 @@
+'use client';
+
 import DelegateTree from "@/entities/delegate-tree/ui/delegate-tree";
 import Members from "@/entities/members/ui/members";
 import NewAssembly from "@/entities/new-assembly/ui/new-assembly";

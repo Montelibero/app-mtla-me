@@ -79,5 +79,6 @@ export const model = {
     $tagFilter,
     $goalFilter,
     $filteredGoalsOptions,
+    $tableAllData,
     $filteredTableData,
 };
