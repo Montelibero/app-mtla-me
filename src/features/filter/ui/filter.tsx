@@ -40,6 +40,13 @@ export const Filter = ({ data }: FilterProps) => {
         submit();
     };
 
+    const resetFilter = () => {
+        fields.source.onChange('');
+        fields.tag.onChange('');
+        fields.goal.onChange('');
+        submit();
+    };
+
     return (
         <div className={styles.filter}>
             <label>
@@ -47,6 +54,7 @@ export const Filter = ({ data }: FilterProps) => {
                 <Select
                     options={getUniqueSelectOptions(data, 'source')}
                     handleSelect={handleSelectSource}
+                    fields={fields}
                 />
             </label>
             <label>
@@ -55,6 +63,7 @@ export const Filter = ({ data }: FilterProps) => {
                     options={getUniqueSelectOptions(data, 'tag').sort(sortTags)}
                     delimit
                     handleSelect={handleSelectTag}
+                    fields={fields}
                 />
             </label>
             <label>
@@ -63,8 +72,15 @@ export const Filter = ({ data }: FilterProps) => {
                     options={filteredGoalsOptions.length > 0 ? filteredGoalsOptions :
                         getUniqueSelectOptions(data, 'goal')}
                     handleSelect={handleSelectGoal}
+                    fields={fields}
                 />
             </label>
+            <button
+                className={styles.filter__reset}
+                onClick={resetFilter}
+            >
+                Сбросить
+            </button>
         </div>
     );
 };

@@ -9,45 +9,52 @@ import { TablePagination, tablePaginationModel } from "@/entities/table-paginati
 import { useEffect } from "react";
 
 interface TableProps {
-  data: BlockchainRelationshipsTypes.FormatedAccountData[];
+    data: BlockchainRelationshipsTypes.FormatedAccountData[];
 }
 
 export const Table = ({ data }: TableProps) => {
-  const [filteredTableData, paginatedData, activePage] = useUnit([
-    filterModel.$filteredTableData,
-    tablePaginationModel.$paginatedData,
-    tablePaginationModel.$activePage,
-  ]);
+    const [tableAllData, filteredTableData, paginatedData, activePage] = useUnit([
+        filterModel.$tableAllData,
+        filterModel.$filteredTableData,
+        tablePaginationModel.$paginatedData,
+        tablePaginationModel.$activePage,
+    ]);
 
-  useEffect(() => {
-    tablePaginationModel.setPaginateData(data);
-  }, []);
+    useEffect(() => {
+        if (filteredTableData.length > 0) {
+            tablePaginationModel.setPaginateData(filteredTableData);
+        }
+        if (!filteredTableData.length) {
+            tablePaginationModel.setPaginateData(tableAllData);
+        }
+    }, [filteredTableData]);
 
-  useEffect(() => {
-    if (filteredTableData.length > 0) {
-      tablePaginationModel.setPaginateData(filteredTableData);
-    }
-  }, [filteredTableData]);
+    useEffect(() => {
+        tablePaginationModel.setPaginateData(data);
+    }, []);
 
-  return (
-    <div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Источник</th>
-            <th>Тег</th>
-            <th>Цель</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedData.length > 0 && paginatedData[activePage].map((item, index) => (
-            <TableItem key={index} data={item} />
-          ))}
-        </tbody>
-      </table>
-      {paginatedData.length > 1 && (
-        <TablePagination data={paginatedData} active={activePage} />
-      )}
-    </div>
-  );
+    return (
+        <div>
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th>Источник</th>
+                        <th>Тег</th>
+                        <th>Цель</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {paginatedData.length > 0 && paginatedData[activePage].map((item, index) => (
+                        <TableItem key={index} data={item} />
+                    ))}
+                </tbody>
+            </table>
+            {paginatedData.length > 1 && (
+                <TablePagination data={paginatedData} active={activePage} />
+            )}
+            {!paginatedData.length && (
+                <div className={styles.empty}>Данные не найдены</div>
+            )}
+        </div>
+    );
 };

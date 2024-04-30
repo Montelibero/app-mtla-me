@@ -57,15 +57,13 @@ sample({
     target: $filteredTableData,
 });
 
-//debug($filteredTableData);
-
 sample({
     clock: $filteredTableData,
     fn: (clock) => getUniqueSelectOptions(clock, 'goal'),
     target: $filteredGoalsOptions,
 });
 
-debug($filteredGoalsOptions);
+debug($filteredTableData);
 
 export const model = {
     filterForm,

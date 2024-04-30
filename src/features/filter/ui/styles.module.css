@@ -7,3 +7,7 @@
     max-width: 700px;
     color: #000;
 }
+
+.filter__reset {
+    width: 100px;
+}

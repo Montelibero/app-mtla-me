@@ -9,9 +9,20 @@ interface SelectProps {
     options: string[];
     delimit?: boolean;
     handleSelect: (value: string) => void;
+    fields: {
+        source: {
+            value: string;
+        }
+        tag: {
+            value: string;
+        }
+        goal: {
+            value: string;
+        }
+    };
 }
 
-export const Select = ({ options, delimit, handleSelect }: SelectProps) => {
+export const Select = ({ options, delimit, handleSelect, fields }: SelectProps) => {
     const [searchValue, setSearchValue] = useState('');
     const [listVisibility, setListVisibility] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
@@ -39,6 +50,17 @@ export const Select = ({ options, delimit, handleSelect }: SelectProps) => {
             });
         }
     }, []);
+
+    useEffect(() => {
+         /** 
+        * Очистка значения селекта при полном сбросе фильтра
+        */
+        if (fields.source.value === '' &&
+            fields.tag.value === '' &&
+            fields.goal.value === '') {
+            setSearchValue('');
+        }
+    }, [fields.source.value, fields.tag.value, fields.goal.value])
 
     useEffect(() => {
         setFilteredOptions(options);
