@@ -8,13 +8,14 @@ import { getUniqueSelectOptions, sortTags } from '@/shared/lib/utils';
 import { Select } from '@/shared/ui/select';
 import { filterModel } from '../model';
 import { BlockchainRelationshipsTypes } from '@/shared/lib/types';
+import { useForm } from 'effector-forms';
 
 interface FilterProps {
     data: BlockchainRelationshipsTypes.FormatedAccountData[];
 }
 
 export const Filter = ({ data }: FilterProps) => {
-    const { locale, changeLanguage } = useLanguageContext();
+    const { fields, submit } = useForm(filterModel.filterForm);
 
     const [filteredGoalsOptions] = useUnit([
         filterModel.$filteredGoalsOptions,
@@ -23,44 +24,47 @@ export const Filter = ({ data }: FilterProps) => {
     useEffect(() => {
         filterModel.setTableAllData(data);
     }, []);
-    
+
+    const handleSelectSource = (value: string) => {
+        fields.source.onChange(value);
+        submit();
+    };
+
+    const handleSelectTag = (value: string) => {
+        fields.tag.onChange(value);
+        submit();
+    };
+
+    const handleSelectGoal = (value: string) => {
+        fields.goal.onChange(value);
+        submit();
+    };
+
     return (
         <div className={styles.filter}>
-            <Select
-                label='Источник:'
-                options={getUniqueSelectOptions(data, 'source')}
-                onChange={(value) => {
-                    filterModel.setSourceFilter(value);
-                }}
-                className={styles.filter__item}
-                classes={{
-                    select: styles.filter__source,
-                }}
-            />
-            <Select
-                label='Тег:'
-                options={sortTags(getUniqueSelectOptions(data, 'tag'))}
-                onChange={(value) => {
-                    filterModel.setTagFilter(value);
-                }}
-                className={styles.filter__item}
-                classes={{
-                    select: styles.filter__source,
-                }}
-            />
-            <Select
-                label='Цель:'
-                options={filteredGoalsOptions.length > 0 ?
-                    filteredGoalsOptions :
-                    getUniqueSelectOptions(data, 'goal')}
-                onChange={(value) => {
-                    filterModel.setGoalFilter(value);
-                }}
-                className={styles.filter__item}
-                classes={{
-                    select: styles.filter__source,
-                }}
-            />
+            <label>
+                Источник:
+                <Select
+                    options={getUniqueSelectOptions(data, 'source')}
+                    handleSelect={handleSelectSource}
+                />
+            </label>
+            <label>
+                Тег:
+                <Select
+                    options={getUniqueSelectOptions(data, 'tag').sort(sortTags)}
+                    delimit
+                    handleSelect={handleSelectTag}
+                />
+            </label>
+            <label>
+                Цель:
+                <Select
+                    options={filteredGoalsOptions.length > 0 ? filteredGoalsOptions :
+                        getUniqueSelectOptions(data, 'goal')}
+                    handleSelect={handleSelectGoal}
+                />
+            </label>
         </div>
-    )
-}
+    );
+};

@@ -18,8 +18,5 @@ export const getUniqueSelectOptions = (
     });
 
     return (Array.from(uniqueValues) as string[])
-        .map((value: string) => ({
-            label: value,
-            value,
-        }));
+        .map((value: string) => value);
 };

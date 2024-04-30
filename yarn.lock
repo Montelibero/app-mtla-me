@@ -1078,6 +1078,11 @@ eastasianwidth@^0.2.0:
   resolved "https://registry.yarnpkg.com/eastasianwidth/-/eastasianwidth-0.2.0.tgz#696ce2ec0aa0e6ea93a397ffcf24aa7840c827cb"
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
+effector-forms@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/effector-forms/-/effector-forms-1.3.4.tgz#0d32953f6f4e906be2713cd145e4f3b6ec0323a0"
+  integrity sha512-m/Swvhf6eDyEgYINULCXLZf9uhMMicYQs4Te3bg5Hx2WdUeq5Cts18QwHU+YxoTTJh06rptWbHk0QHHmI4uPuA==
+
 effector-react@^23.2.0:
   version "23.2.0"
   resolved "https://registry.yarnpkg.com/effector-react/-/effector-react-23.2.0.tgz#b0bbb09f8b786ba565f99829827c83ff3349b64d"

@@ -1,52 +1,84 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { Loader } from "../loader";
-
-const ReactSelect = dynamic(() => import("react-select"), { ssr: false, loading: Loader() });
-
-export type SelectValue = {
-    label: string;
-    value: string;
-};
-
-interface SelectPropsWithOther {
-    label: string;
-    options?: SelectValue[];
-}
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import styles from './styles.module.css';
+import clsx from "clsx";
+import { tagsStandart } from "@/shared/lib/config";
 
 interface SelectProps {
-    label?: string;
-    options: SelectValue[] | SelectPropsWithOther[];
-    onChange?: (value: string) => void;
-    className?: string;
-    classes?: {
-        select: string;
-    };
-    menuIsOpen?: boolean;
+    options: string[];
+    delimit?: boolean;
+    handleSelect: (value: string) => void;
 }
 
-export const Select = ({
-    label,
-    options,
-    onChange,
-    className,
-    classes,
-    menuIsOpen,
-}: SelectProps) => {
+export const Select = ({ options, delimit, handleSelect }: SelectProps) => {
+    const [searchValue, setSearchValue] = useState('');
+    const [listVisibility, setListVisibility] = useState(false);
+    const [filteredOptions, setFilteredOptions] = useState(options);
+    const [border, setBorder] = useState('');
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const filtered = options.filter((option) =>
+            option.toLowerCase().includes(value.toLowerCase())
+        );
+
+        setSearchValue(value);
+        setFilteredOptions(filtered);
+    };
+
+    useEffect(() => {
+        /** 
+        * Определяем элемент списка, с которого начинаются теги, не входящие в стандарт
+        */
+        if (delimit) {
+            options.forEach((item) => {
+                if (tagsStandart.includes(item) && !border) {
+                    setBorder(item);
+                }
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        setFilteredOptions(options);
+    }, [options]);
+
+    const onSelect = (e: MouseEvent<HTMLDivElement>, option: string) => {
+        e.preventDefault();
+
+        setSearchValue(option);
+        handleSelect(option);
+        setListVisibility(false);
+    };
+
     return (
-        <div className={className}>
-            {label && <span>{label}</span>}
-            <ReactSelect
-                options={options}
-                menuIsOpen={menuIsOpen}
-                onChange={(selectValue) => {
-                    onChange
-                        ? onChange((selectValue as SelectValue).value as string)
-                        : null;
-                }}
-                className={classes && classes.select}
+        <div className={styles.select}>
+            <input
+                className={styles.search}
+                type="text"
+                placeholder="Поиск..."
+                value={searchValue}
+                onChange={handleInputChange}
+                onClick={() => setListVisibility(true)}
+                onFocus={() => setListVisibility(true)}
+                onBlur={() => setListVisibility(false)}
             />
+            <div className={clsx(styles.options, listVisibility && styles.options__visible)}>
+                {filteredOptions.map((option, index) => (
+                    <div key={index}>
+                        <div className={styles.option} onMouseDown={(e) => onSelect(e, option)}>
+                            {option}
+                        </div>
+                        {option === border && (
+                            <div className={styles.other}>Прочее</div>
+                        )}
+                    </div>
+                ))}
+                {!filteredOptions.length && (
+                    <span className={styles.noResult}>Нет результата...</span>
+                )}
+            </div>
         </div>
     )
 };

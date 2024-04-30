@@ -1,7 +1,7 @@
 import { BlockchainRelationshipsTypes } from "@/shared/lib/types";
 import { filterTableData, getUniqueSelectOptions } from "@/shared/lib/utils";
-import { SelectValue } from "@/shared/ui/select";
-import { combine, createEffect, createEvent, createStore, sample } from "effector";
+import { createEffect, createEvent, createStore, sample } from "effector";
+import { Form, createForm } from "effector-forms";
 import { debug } from "patronum";
 
 export interface FilterState {
@@ -15,6 +15,20 @@ export interface FilterFx {
     state: FilterState;
 }
 
+const filterForm: Form<FilterState> = createForm({
+    fields: {
+        source: {
+            init: '',
+        },
+        tag: {
+            init: '',
+        },
+        goal: {
+            init: '',
+        },
+    },
+})
+
 const setTableAllData = createEvent<BlockchainRelationshipsTypes.FormatedAccountData[]>();
 const setSourceFilter = createEvent<string>();
 const setTagFilter = createEvent<string>();
@@ -23,11 +37,7 @@ const setGoalFilter = createEvent<string>();
 const filterFx = createEffect((data: FilterFx) => filterTableData(data));
 
 const $tableAllData = createStore<BlockchainRelationshipsTypes.FormatedAccountData[]>([]);
-const $sourceFilter = createStore<string>('');
-const $tagFilter = createStore<string>('');
-const $goalFilter = createStore<string>('');
-const $filterStores = combine({ source: $sourceFilter, tag: $tagFilter, goal: $goalFilter });
-const $filteredGoalsOptions = createStore<SelectValue[]>([]);
+const $filteredGoalsOptions = createStore<string[]>([]);
 const $filteredTableData = createStore<BlockchainRelationshipsTypes.FormatedAccountData[]>([]);
 
 sample({
@@ -36,22 +46,7 @@ sample({
 });
 
 sample({
-    clock: setSourceFilter,
-    target: $sourceFilter,
-});
-
-sample({
-    clock: setTagFilter,
-    target: $tagFilter,
-});
-
-sample({
-    clock: setGoalFilter,
-    target: $goalFilter,
-});
-
-sample({
-    clock: $filterStores,
+    clock: filterForm.formValidated,
     source: $tableAllData,
     fn: (source, clock) => ({ tableData: source, state: clock }),
     target: filterFx,
@@ -62,7 +57,7 @@ sample({
     target: $filteredTableData,
 });
 
-debug($filteredTableData);
+//debug($filteredTableData);
 
 sample({
     clock: $filteredTableData,
@@ -70,14 +65,14 @@ sample({
     target: $filteredGoalsOptions,
 });
 
+debug($filteredGoalsOptions);
+
 export const model = {
+    filterForm,
     setTableAllData,
     setSourceFilter,
     setTagFilter,
     setGoalFilter,
-    $sourceFilter,
-    $tagFilter,
-    $goalFilter,
     $filteredGoalsOptions,
     $tableAllData,
     $filteredTableData,

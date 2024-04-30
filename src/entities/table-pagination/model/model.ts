@@ -1,6 +1,5 @@
 import { BlockchainRelationshipsTypes } from "@/shared/lib/types";
 import { createEffect, createEvent, createStore, sample } from "effector";
-import { debug } from "patronum";
 
 type PaginateDataStore = Array<BlockchainRelationshipsTypes.FormatedAccountData[]>;
 
@@ -34,8 +33,6 @@ sample({
     clock: filterFx.doneData,
     target: $paginatedData,
 });
-
-debug($paginatedData);
 
 sample({
     clock: setPage,
