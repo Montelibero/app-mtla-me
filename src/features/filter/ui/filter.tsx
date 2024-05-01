@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUnit } from 'effector-react';
 import styles from './styles.module.css';
 import { useLanguageContext } from '@/shared/lib/hooks';
@@ -9,6 +9,7 @@ import { Select } from '@/shared/ui/select';
 import { filterModel } from '../model';
 import { BlockchainRelationshipsTypes } from '@/shared/lib/types';
 import { useForm } from 'effector-forms';
+import { FilterTopButtons } from './filter-top-buttons';
 
 interface FilterProps {
     data: BlockchainRelationshipsTypes.FormatedAccountData[];
@@ -17,9 +18,12 @@ interface FilterProps {
 export const Filter = ({ data }: FilterProps) => {
     const { fields, submit } = useForm(filterModel.filterForm);
 
-    const [filteredGoalsOptions] = useUnit([
+    const [filteredGoalsOptions, associationMembersByLevel] = useUnit([
         filterModel.$filteredGoalsOptions,
+        filterModel.$associationMembersByLevel,
     ]);
+
+    const [resetTopButton, setResetTopButton] = useState(false);
 
     useEffect(() => {
         filterModel.setTableAllData(data);
@@ -44,15 +48,23 @@ export const Filter = ({ data }: FilterProps) => {
         fields.source.onChange('');
         fields.tag.onChange('');
         fields.goal.onChange('');
+        setResetTopButton(true);
         submit();
     };
 
     return (
         <div className={styles.filter}>
+            <FilterTopButtons
+                resetTopButton={resetTopButton}
+                setResetTopButton={setResetTopButton}
+                resetFilter={resetFilter}
+            />
             <label>
                 Источник:
                 <Select
-                    options={getUniqueSelectOptions(data, 'source')}
+                    options={associationMembersByLevel.length > 0 ?
+                        getUniqueSelectOptions(associationMembersByLevel, 'source') :
+                        getUniqueSelectOptions(data, 'source')}
                     handleSelect={handleSelectSource}
                     fields={fields}
                 />
@@ -60,7 +72,9 @@ export const Filter = ({ data }: FilterProps) => {
             <label>
                 Тег:
                 <Select
-                    options={getUniqueSelectOptions(data, 'tag').sort(sortTags)}
+                    options={associationMembersByLevel.length > 0 ?
+                        getUniqueSelectOptions(associationMembersByLevel, 'tag') :
+                        getUniqueSelectOptions(data, 'tag').sort(sortTags)}
                     delimit
                     handleSelect={handleSelectTag}
                     fields={fields}

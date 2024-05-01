@@ -8,6 +8,27 @@
     color: #000;
 }
 
+.filter__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.filter__buttons button {
+    cursor: pointer;
+}
+
+.filter__levels {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.filter__activeBtn {
+    background-color: #a0a0a0;
+}
+
 .filter__reset {
     width: 100px;
+    cursor: pointer;
 }

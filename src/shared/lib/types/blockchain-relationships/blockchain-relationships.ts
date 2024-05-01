@@ -17,7 +17,7 @@ export namespace BlockchainRelationshipsTypes {
 
     export interface AccountBalances {
         [currency: string]: string;
-      };
+    };
 
     export interface AccountTags {
         [tag: string]: string[];
@@ -26,6 +26,7 @@ export namespace BlockchainRelationshipsTypes {
     export type FilterFields = 'source' | 'tag' | 'goal';
 
     export interface FormatedAccountData {
+        tokens: AccountBalances;
         source: string;
         tag: string;
         goal: string;

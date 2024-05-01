@@ -23,6 +23,7 @@ export const formatAccounts = (accounts: BlockchainRelationshipsTypes.Accounts) 
                     * Создаем объект и добавляем его в массив результатов
                     */
                     resultArray.push({
+                        tokens: accounts[source].balances,
                         source: source,
                         tag: tag,
                         goal: goal
