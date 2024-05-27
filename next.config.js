@@ -15,6 +15,18 @@ const nextConfig = {
   assetPrefix,
   basePath,
   ...(isGithubActions && { output: "export" }),
+  babel: {
+    plugins: [
+      [
+        "effector/babel-plugin",
+        {
+          factories: [
+            "effector-forms"
+          ]
+        }
+      ]
+    ]
+  }
 };
 
 module.exports = nextConfig;

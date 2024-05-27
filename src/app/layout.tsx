@@ -1,7 +1,6 @@
-import { LanguageContext } from "@/hooks/useLanguageContext";
-import "./globals.css";
+import "@/shared/lib/styles/globals.css";
 import type { Metadata } from "next";
-import { Providers } from "@/components/Providers";
+import { Providers } from "@/features/providers";
 
 export const metadata: Metadata = {
   title: "MTL Association",

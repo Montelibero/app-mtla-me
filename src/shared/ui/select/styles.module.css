@@ -1,0 +1,44 @@
+.select {
+    position: relative;
+}
+
+.search {
+    width: 99%;
+}
+
+.options {
+    display: none;
+}
+
+.options__visible {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    width: 100%;
+    max-height: 500px;
+    border: 1px solid #000;
+    background-color: #fff;
+    overflow-y: scroll;
+    z-index: 9;
+}
+
+.option {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #cfcfcf;
+}
+
+.noResult {
+    padding: 10px;
+}
+
+.other {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid black;
+}
