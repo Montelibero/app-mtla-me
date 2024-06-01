@@ -1,9 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[185],{37150:function(e,t,r){Promise.resolve().then(r.t.bind(r,53054,23)),Promise.resolve().then(r.bind(r,25090))},25090:function(e,t,r){"use strict";r.r(t),r.d(t,{Providers:function(){return Providers}});var n=r(57437),o=r(64946),u=r(2265);function Providers(e){let{children:t}=e,[r,s]=(0,u.useState)("en");return(0,u.useEffect)(()=>{let e=localStorage.getItem("lang");e&&s(e)},[]),(0,n.jsx)(o.A.Provider,{value:{locale:r,changeLanguage:e=>{localStorage.setItem("lang",e),s(e)}},children:t})}},64946:function(e,t,r){"use strict";r.d(t,{A:function(){return o},Q:function(){return useLanguageContext}});var n=r(2265);let o=(0,n.createContext)({locale:"ru",changeLanguage:e=>{}}),useLanguageContext=()=>(0,n.useContext)(o)},53054:function(){},30622:function(e,t,r){"use strict";/**
- * @license React
- * react-jsx-runtime.production.min.js
- *
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */var n=r(2265),o=Symbol.for("react.element"),u=Symbol.for("react.fragment"),s=Object.prototype.hasOwnProperty,a=n.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,c={key:!0,ref:!0,__self:!0,__source:!0};function q(e,t,r){var n,u={},i=null,f=null;for(n in void 0!==r&&(i=""+r),void 0!==t.key&&(i=""+t.key),void 0!==t.ref&&(f=t.ref),t)s.call(t,n)&&!c.hasOwnProperty(n)&&(u[n]=t[n]);if(e&&e.defaultProps)for(n in t=e.defaultProps)void 0===u[n]&&(u[n]=t[n]);return{$$typeof:o,type:e,key:i,ref:f,props:u,_owner:a.current}}t.Fragment=u,t.jsx=q,t.jsxs=q},57437:function(e,t,r){"use strict";e.exports=r(30622)}},function(e){e.O(0,[971,864,744],function(){return e(e.s=37150)}),_N_E=e.O()}]);
