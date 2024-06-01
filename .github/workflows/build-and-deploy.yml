@@ -5,7 +5,7 @@ permissions:
 
 on:
   push:
-    branches: [fix/gh-deploy]
+    branches: [main]
 
 jobs:
   build:
