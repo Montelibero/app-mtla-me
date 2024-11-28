@@ -5,9 +5,9 @@ export const sumCount = (
 ): number => {
     if (!member) return 0;
     return (
-        member.count +
-        +(member.children?.length
-            ? member.children?.map(sumCount).reduce((prev, cur) => prev + cur, 0)
-            : 0)
+        (member.count > 1 ? member.count : 0) +
+            +(member.children?.length
+                ? member.children?.map(sumCount).reduce((prev, cur) => prev + cur, 0)
+                : 0)
     );
 };
